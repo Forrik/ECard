@@ -19,7 +19,7 @@
    
     
     <div>
-     <card-list :cards="cards" />
+     <card-list :cards="cards" @remove="removeCard" />
     </div>
   
       
@@ -50,7 +50,10 @@ export default {
     methods: {
         createCard(card) {
         this.cards.push(card)
-        },  
+        },
+        removeCard(card) {
+          this.cards = this.cards.filter( c => c.id !== card.id)
+        }  
     }
 }
 </script>
