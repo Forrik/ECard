@@ -12,14 +12,21 @@
 <div class="container">
   
     <div class="header">
-        <input />
+        <input type="text" v-model.trim="modificatorValue" />
         <div class="header__title">Список сотрудников</div>
-        <my-button @click="isVisible = !isVisible" >Добавить</my-button>
+        <my-button style="" @click="isVisible = !isVisible" >Добавить</my-button>
     </div>
    
     
     <div>
-     <card-list :cards="cards" @remove="removeCard" />
+     <card-list v-if="!isCardLoading"  :cards="cards" @remove="removeCard" />
+     <div v-else  class="cards-loading">
+      <div class="cards-loading__title">Идёт загрузка</div>
+      <div class="lds-dual-ring"></div>
+     </div>
+
+
+
     </div>
   
       
@@ -31,34 +38,92 @@
 <script>
 import CardList from './components/CardList.vue';
 import CardModal from './components/CardModal.vue'
-import MyButton from './components/UI/MyButton.vue';
+import axios from 'axios';
+
 
 export default {
   components: {
-     CardList, CardModal, MyButton
+     CardList, CardModal
   },
     data () {
         return {
             cards: [
-                {id: 1, lastName:'Маяковский', firstName: 'Владимир', secondName: 'Владимирович',  imgUrl:'https://images11.graziamagazine.ru/upload/img_cache/d51/d51bd08fca58b7464218c2a1ac0836d8_cropped_666x833.webp'},
-                {id: 2, lastName:'Достоевский', firstName: 'Фёдор', secondName: 'Михайлович',  imgUrl:'https://upload.wikimedia.org/wikipedia/commons/6/6e/Fyodor_Mikhailovich_Dostoyevsky_1876.jpg'},
+                {id: 3612312, lastName:'Маяковский', firstName: 'Владимир', secondName: 'Владимирович',  imgUrl:'https://images11.graziamagazine.ru/upload/img_cache/d51/d51bd08fca58b7464218c2a1ac0836d8_cropped_666x833.webp'},
+                {id: 31231237, lastName:'Достоевский', firstName: 'Фёдор', secondName: 'Михайлович',  imgUrl:'https://upload.wikimedia.org/wikipedia/commons/6/6e/Fyodor_Mikhailovich_Dostoyevsky_1876.jpg'},
 
             ], 
-         isVisible: false
+         isVisible: false,
+         isCardLoading: false,
         }
     },
     methods: {
         createCard(card) {
-        this.cards.push(card)
+        this.cards.push(card);
+        this.isVisible = false;
         },
         removeCard(card) {
           this.cards = this.cards.filter( c => c.id !== card.id)
-        }  
+        },
+         async fetchCards() {
+          try {
+            this.isCardLoading = true;
+            const response = await axios.get('https://63e79c82ac3920ad5be0b369.mockapi.io/project?');
+            this.cards = response.data;
+          } catch(e) {
+            alert('Ошибка')
+          } finally {
+            this.isCardLoading = false;
+          }
+         } 
+    },
+    mounted() {
+      this.fetchCards();
     }
 }
 </script>
 
 <style>
+
+.lds-dual-ring {
+  display: flex;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.cards-loading {
+position: absolute;
+left: 0;
+top: 50%;
+width: 100%;
+height: 100%;
+}
+
+
+.cards-loading__title {
+  display: flex;
+  justify-content: center;
+}
 
 .popup__bgc {
   background-color: #fff;
@@ -82,8 +147,22 @@ export default {
   z-index: 2;
 }
 
+.header__input {
+  border: none;
+  border-bottom: 1px solid grey;
+  background-color: transparent;
+  outline: none;
+  transition: 0.3s;
+  width: 150px;
+}
+
+.header__input:focus {
+  border-bottom: 1px solid black;
+}
+
 body {
     background-color: #f2f7ff;
+    font-family: 'Nerko One', cursive;
 }
 /* Указываем box sizing */
 *,
@@ -175,11 +254,13 @@ select {
    border-radius: 20px;
    z-index: 1;
    position: relative;
+   min-height: 50vh;
 }
 
 .header {
  display: flex;
  justify-content: space-between;
+ margin: 10px 0 45px 0;
 
 }
 

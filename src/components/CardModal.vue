@@ -6,9 +6,10 @@
             </div>
             <div>
                 <form @submit.prevent>
-                    <input v-model="card.firstName" placeholder="Имя">
-                    <input v-model="card.lastName" placeholder="Фамилия">
-                    <input v-model="card.secondName" placeholder="Отчество">
+                    <my-input v-model:value="card.firstName" placeholder="Имя" />
+                    <my-input v-model:value="card.lastName" placeholder="Фамилия" />
+                    <my-input v-model:value="card.secondName" placeholder="Отчество" />
+                    
                     <my-button @click="createCard">Добавить</my-button>
                 </form>
             </div>
@@ -17,10 +18,10 @@
 </template>
 
 <script>
-import MyButton from './UI/MyButton.vue';
+
     export default {
         components: {
-            MyButton
+          
         },
         data () {
             return {
