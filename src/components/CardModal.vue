@@ -9,7 +9,10 @@
                     <my-input v-model:value="card.firstName" placeholder="Имя" />
                     <my-input v-model:value="card.lastName" placeholder="Фамилия" />
                     <my-input v-model:value="card.secondName" placeholder="Отчество" />
-                    
+                    <my-select 
+                    v-model="selectedJob"
+                    :options="jobOptions"
+                     />
                     <my-button @click="createCard">Добавить</my-button>
                 </form>
             </div>
@@ -28,8 +31,14 @@
                 card: {
                     lastName: '',
                     firstName: '',
-                    secondName: ''
-                }
+                    secondName: '',
+                    selectedJob: '',
+                },
+                jobOptions: [
+                        {value:'1', name:'Должность das' },
+                        {value:'2', name:'Должность dsa' },
+                        {value:'3', name:'Должность sda' }
+                    ]
             }
         },
         methods: {

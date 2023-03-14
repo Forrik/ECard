@@ -1,11 +1,11 @@
 <template>
     <tbody  class="employee-card">
         <td class="card__element">№ {{card.id}} </td>
-        <td class="card__element">{{ card.lastName }}</td>
         <td class="card__element">{{ card.firstName }}</td>
-        <td class="card__element">{{ card.secondName }}</td>
-        <td class="card__element">example@mail.ru</td>
-        <td class="card__element">Должность</td>
+        <td class="card__element">{{ card.lastName }}</td>
+        <td class="card__element">{{ card.middleName }}</td>
+        <td class="card__element">{{card.email}}</td>
+        <td  class="card__element"> {{card.jobTitle}} </td>
         <div class="card__icons">
             <svg @click="$emit('remove', card)" class="card__icon" viewBox="0 0 24 24" fill="none">
                 <path d="M10 11V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -52,6 +52,7 @@
    text-align: center;
    justify-content: center;
    width: 7%;
+   align-items: center;
 }
 
 .card__element:last-of-type {

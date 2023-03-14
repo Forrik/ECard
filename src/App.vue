@@ -10,9 +10,10 @@
     </div>
   
 <div class="container">
-  
+ 
     <div class="header">
-        <input type="text" v-model.trim="modificatorValue" />
+      
+        <my-input type="text" v-model.trim="searchQuery" />
         <div class="header__title">Список сотрудников</div>
         <my-button style="" @click="isVisible = !isVisible" >Добавить</my-button>
     </div>
@@ -47,13 +48,10 @@ export default {
   },
     data () {
         return {
-            cards: [
-                {id: 3612312, lastName:'Маяковский', firstName: 'Владимир', secondName: 'Владимирович',  imgUrl:'https://images11.graziamagazine.ru/upload/img_cache/d51/d51bd08fca58b7464218c2a1ac0836d8_cropped_666x833.webp'},
-                {id: 31231237, lastName:'Достоевский', firstName: 'Фёдор', secondName: 'Михайлович',  imgUrl:'https://upload.wikimedia.org/wikipedia/commons/6/6e/Fyodor_Mikhailovich_Dostoyevsky_1876.jpg'},
-
-            ], 
+            cards: [ ], 
          isVisible: false,
          isCardLoading: false,
+         searchQuery: '',
         }
     },
     methods: {
@@ -78,11 +76,13 @@ export default {
     },
     mounted() {
       this.fetchCards();
-    }
+    },
+  
 }
 </script>
 
 <style>
+
 
 .lds-dual-ring {
   display: flex;
@@ -135,9 +135,7 @@ height: 100%;
   top: 0;
   right: 0;
 }
-.card__popup {
 
-}
 
 .card__cancel__icon {
   position: absolute;
